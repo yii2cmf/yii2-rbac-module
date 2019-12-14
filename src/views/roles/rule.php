@@ -6,8 +6,8 @@ use yii\widgets\ActiveForm;
 
 /* @var $role string */
 
-$this->title = Module::c(Module::c('Add rule for "{role}"', ['role' => $model->role]));
-$this->params['breadcrumbs'][] = ['label' => Module::c('Roles'), 'url' => ['index']];
+$this->title = M::c(M::c('Add rule for "{role}"', ['role' => $model->role]));
+$this->params['breadcrumbs'][] = ['label' => M::c('Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-form">

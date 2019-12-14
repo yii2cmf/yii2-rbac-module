@@ -12,7 +12,7 @@ use yii\helpers\Html;
 /* @var $controller string */
 /* @var $action string */
 
-$this->title = Module::c('Add Rule');
+$this->title = M::c('Add Rule');
 $this->params['breadcrumbs'][] = ['label' => M::c('Rules'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

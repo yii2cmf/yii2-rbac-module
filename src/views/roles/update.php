@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $type int */
 /* @var $childRoles array */
 
-$this->title = Module::c('Update Role');
+$this->title = M::c('Update Role');
 $this->params['breadcrumbs'][] = ['label' => M::c('Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

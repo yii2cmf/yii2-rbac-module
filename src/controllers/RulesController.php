@@ -2,12 +2,12 @@
 namespace yii2cmf\modules\rbac\controllers;
 
 use Yii;
-use app\modules\rbac\components\services\ModuleService;
-use app\modules\rbac\Module;
-use app\modules\rbac\models\AuthRuleModel;
-use app\modules\rbac\components\services\AuthService;
-use app\modules\rbac\models\AuthItem;
-use app\modules\rbac\models\AuthItemSearch;
+use yii2cmf\modules\rbac\components\services\ModuleService;
+use yii2cmf\modules\rbac\Module;
+use yii2cmf\modules\rbac\models\AuthRuleModel;
+use yii2cmf\modules\rbac\components\services\AuthService;
+use yii2cmf\modules\rbac\models\AuthItem;
+use yii2cmf\modules\rbac\models\AuthItemSearch;
 use yii\helpers\StringHelper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -80,7 +80,7 @@ class RulesController extends Controller
     public function actionUpdate(string $id)
     {
         $permission = $this->authService->getPermission($id);
-        list($modules, $controllers, $actions) = $this->getModulesControllersActions();
+        list($modules, $controllers, $actions) = $this->getModulesControllersActions($id);
 
         $name = explode('_', $permission->name);
 
@@ -125,20 +125,23 @@ class RulesController extends Controller
      * @return array
      * @throws \Exception
      */
-    private function getModulesControllersActions(): array
+    private function getModulesControllersActions(string $id): array
     {
         $modules = $this->moduleService->getModules();
         if (!$modules) {
             return [];
         }
 
-        $controllers = $this->moduleService->getControllersShortName(reset($modules));
+        $moduleName = substr($id, 0, strpos($id, '_'));
+        $controllerName = substr($id, strpos($id, '_')+1,strpos($id, '_')+1);
+
+        $controllers = $this->moduleService->getControllersShortName($moduleName);
 
         if (!$controllers) {
             throw new \Exception("Controllers Not Found");
         }
 
-        $actions = $this->moduleService->getControllerActions(reset($modules), ucfirst(reset($controllers)).'Controller');
+        $actions = $this->moduleService->getControllerActions($moduleName, ucfirst($controllerName).'Controller');
 
         return [$modules, $controllers, $actions];
     }
@@ -183,14 +186,11 @@ class RulesController extends Controller
      */
     public function actionLoadActions()
     {
+
         if (($moduleName = Yii::$app->request->post('module')) && ($controllerName = Yii::$app->request->post('controller'))) {
             $module = Yii::$app->getModule($moduleName);
 
             $reflectionClass = new \ReflectionClass($module->controllerNamespace.'\\'.ucfirst($controllerName).'Controller');
-
-            $actions[] = array_filter($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC), function ($method) {
-                return strstr($method->name,'action') !== false && $method->name !== 'actions' && strstr($method->class, 'yii') == false;
-            });
 
             $actions = $this->moduleService->getControllerActions($moduleName, ucfirst($controllerName).'Controller');
             $actionsOptions = [];

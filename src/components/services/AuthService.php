@@ -1,16 +1,17 @@
 <?php
 namespace yii2cmf\modules\rbac\components\services;
 
-use app\modules\rbac\models\AuthItem;
-use app\modules\rbac\models\AuthItemChild;
-use phpDocumentor\Reflection\Types\Boolean;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
-use app\modules\rbac\models\AuthRule;
 use yii\rbac\DbManager;
 use yii\rbac\Role;
+use yii2cmf\modules\rbac\models\AuthItem;
+use yii2cmf\modules\rbac\models\AuthItemChild;
+use phpDocumentor\Reflection\Types\Boolean;
+use yii2cmf\modules\rbac\models\AuthRule;
+
 
 class AuthService extends Component
 {

@@ -132,8 +132,9 @@ class RulesController extends Controller
             return [];
         }
 
+        $controllerAction = substr($id, strpos($id, '_')+1);
         $moduleName = substr($id, 0, strpos($id, '_'));
-        $controllerName = substr($id, strpos($id, '_')+1,strpos($id, '_')+1);
+        $controllerName = substr($id, strlen($moduleName)+1, strpos($controllerAction, '_'));
 
         $controllers = $this->moduleService->getControllersShortName($moduleName);
 

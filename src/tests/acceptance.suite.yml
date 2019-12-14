@@ -1,0 +1,18 @@
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+              url: http://code-geek.kz
+              browser: chrome
+              port: 4444
+              window_size: 1920x1080
+              capabilities:
+                  unexpectedAlertBehaviour: 'accept'
+        - Db:
+              dump: 'tests/_data/basic_tests.sql'
+              populate: true
+              cleanup: true
+              reconnect: true
+              dsn: 'mysql:host=172.16.10.22;dbname=basic_tests'
+              user: 'root'
+              password: '12345678'

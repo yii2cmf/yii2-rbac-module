@@ -102,13 +102,10 @@ class RoleModel extends Model
     {
         $authManager = $this->authManager;
 
-        // if role name changed
-        if ($this->name != $this->oldRoleName) {
-            $this->updateRole($authManager);
-        }
+        $this->updateRole($authManager);
+
         $this->updateChildRoles();
         return true;
-
     }
 
 
@@ -119,13 +116,13 @@ class RoleModel extends Model
      */
     private function updateRole(DbManager $authManager): bool
     {
-        $newRole = $authManager->createRole($this->name);
-        $newRole->description = null;
-        $newRole->ruleName = $this->rule_name;
-        $newRole->data = null;
-        $newRole->type = 1;
+        $role = ($this->oldRoleName != $this->name) ? $authManager->createRole($this->name) : $authManager->getRole($this->oldRoleName);
+        $role->description = !empty($this->description) ? $this->description : null;
+        $role->ruleName = $this->rule_name;
+        $role->data = null;
+        $role->type = 1;
 
-        return $authManager->update($this->oldRoleName, $newRole);
+        return $authManager->update($this->oldRoleName, $role);
     }
 
     private function isRolesChecked()

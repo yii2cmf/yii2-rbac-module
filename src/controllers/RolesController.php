@@ -100,7 +100,6 @@ class RolesController extends Controller
 
 
         return $this->render('update', [
-            'type' => 1,
             'model' => $model,
             'childRoles' => $roles
         ]);

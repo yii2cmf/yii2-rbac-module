@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 /* @var $tabs array */
 /* @var $model \app\modules\rbac\models\ActionsForm */
 
-$this->title = M::c('Add/Edit Permissions for {roleName}', ['roleName' => $role]);
+$this->title = M::c('Update Permissions for "{roleName}"', ['roleName' => $role]);
 $this->params['breadcrumbs'][] = ['label' => M::c('Roles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

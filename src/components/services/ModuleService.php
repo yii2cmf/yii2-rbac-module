@@ -167,7 +167,7 @@ class ModuleService extends Component
         $reflectionClass = new \ReflectionClass(Yii::$app->getModule($moduleId)->controllerNamespace.'\\'.$pathInfo['filename']);
 
         $methods = array_filter($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC), function ($method){
-            return strstr($method->name,'action') !== false && $method->name !== 'actions' && strstr($method->class, 'yii') == false;
+            return strstr($method->name,'action') !== false && $method->name !== 'actions' && substr($method->class, 0, strpos($method->class, '\\')) != 'yii';
         });
 
         $actions = [];

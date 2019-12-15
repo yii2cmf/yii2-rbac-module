@@ -1,5 +1,7 @@
 <?php
+namespace yii2cmf\modules\rbac\migrations;
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -51,6 +53,6 @@ class m191215_075504_create_user_table extends Migration
     private function isTableNotExist()
     {
         $tablePrefix = Yii::$app->db->tablePrefix;
-        return $this->db->getTableSchema($tablePrefix.'user', true) == null;
+        return $this->db->getTableSchema($tablePrefix.'user', true) === null;
     }
 }

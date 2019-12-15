@@ -22,7 +22,7 @@ class ModuleService extends Component
          */
         $rbac = Yii::$app->getModule('rbac');
 
-        $modules = [];
+        $modules[Yii::$app->id] = Yii::$app->id;
         foreach (Yii::$app->getModules() as $id => $module) {
             if ((isset($rbac->exclude) && !in_array($id, $rbac->exclude)) || !$rbac->exclude) {
                 if (!is_object($module)) {
@@ -43,7 +43,9 @@ class ModuleService extends Component
      */
     public function getControllers(string $moduleId)
     {
-        if (!($module = Yii::$app->getModule($moduleId))) {
+        if (Yii::$app->id == $moduleId) {
+            $module = Yii::$app;
+        } elseif (!($module = Yii::$app->getModule($moduleId))) {
             throw new Exception("Module: $moduleId Not Exist");
         }
 
@@ -163,8 +165,9 @@ class ModuleService extends Component
      */
     public function getControllerActionsReverse(string $role, string $moduleId, string $controllerId)
     {
+        $module = Yii::$app->id == $moduleId ? Yii::$app : Yii::$app->getModule($moduleId);
         $pathInfo = pathinfo($controllerId);
-        $reflectionClass = new \ReflectionClass(Yii::$app->getModule($moduleId)->controllerNamespace.'\\'.$pathInfo['filename']);
+        $reflectionClass = new \ReflectionClass($module->controllerNamespace.'\\'.$pathInfo['filename']);
 
         $methods = array_filter($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC), function ($method){
             return strstr($method->name,'action') !== false && $method->name !== 'actions' && substr($method->class, 0, strpos($method->class, '\\')) != 'yii';

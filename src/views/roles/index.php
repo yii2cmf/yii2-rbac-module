@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-pencil']), $url);
                     },
                     'permissions' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-lock', 'title' => 'Add/Edit Permission']), ['permissions', 'role' => $model->name]);
+                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-lock', 'title' => 'Update Permission']), ['permissions', 'role' => $model->name]);
                     },
                     'rule' => function ($url, $model, $key) {
                         return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-list-alt', 'title' => 'Add/Edit Rule']), ['rule', 'role' => $model->name]);

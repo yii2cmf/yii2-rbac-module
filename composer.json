@@ -20,10 +20,10 @@
     },
     "scripts": {
         "post-update-cmd": [
-            "php yii migrate --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations"
+            "php yii --interactive=0 migrate --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations"
         ],
         "post-install-cmd": [
-            "php yii migrate --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations"
+            "php yii --interactive=0 migrate --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations "
         ]
     }
 }

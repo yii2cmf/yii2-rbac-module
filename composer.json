@@ -17,5 +17,13 @@
         "psr-4": {
             "yii2cmf\\modules\\rbac\\": "src"
         }
-    }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "php yii migrate --migrationPath=@yii2cmf/yii2-rbac-module/migrations"
+        ],
+        "post-install-cmd": [
+            "php yii migrate --migrationPath=@yii2cmf/yii2-rbac-module/migrations"
+        ]
+    }, 
 }

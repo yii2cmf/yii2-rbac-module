@@ -25,5 +25,5 @@
         "post-install-cmd": [
             "php yii migrate --migrationPath=@yii2cmf/yii2-rbac-module/migrations"
         ]
-    }, 
+    }
 }

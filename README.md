@@ -32,19 +32,23 @@ In config/web.php
 php yii migrate/down --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations
 ```
 
+##### Update Permissions
+
 http://your-project/rbac/roles
 
-![roles](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/RolesIndex.png)
+![update_permissions](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdatePerm2.png)
 
-http://your-project/rbac/rules
-
-![rules](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/RulesIndex.png)
 
 
 ##### Update Permissions
 
-![update-permissions](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/UpdatePermissions.png)
+![update-permissions](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdatePerm1.png)
+
+http://your-project/rbac/rules
+
+![rules](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/RolesIndex.png)
+
 
 ##### Add Rule
 
-![add-rule](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/CreateRule.png)
+![add-rule](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/AddRule.png)

@@ -29,7 +29,7 @@ In config/web.php
 ```
 ##### Apply migrations
 ```
-php yii migrate/down --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations
+php yii migrate/up --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations
 ```
 
 ##### Module Default Page

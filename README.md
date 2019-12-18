@@ -34,7 +34,7 @@ php yii migrate/down --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations
 
 ##### Update Permissions
 
-http://your-project/rbac/roles
+http://your-project/rbac/roles or http://your-project/module/rbac/roles 
 
 ![update_permissions](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdatePerm2.png)
 

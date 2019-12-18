@@ -44,9 +44,14 @@ http://your-project/rbac/roles
 
 ![update-permissions](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdatePerm1.png)
 
-http://your-project/rbac/rules
+##### Default 
 
-![rules](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/RolesIndex.png)
+![index](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/RolesIndex.png)
+
+
+##### Update Rule
+
+![update-rule](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdateRule.png)
 
 
 ##### Add Rule

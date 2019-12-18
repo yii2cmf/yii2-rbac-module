@@ -1,10 +1,12 @@
 <?php
 namespace yii2cmf\modules\rbac\models;
 
+use yii\rbac\Role;
 use yii2cmf\modules\rbac\Module;
 use yii\base\Exception;
 use yii\base\Model;
 use yii\rbac\DbManager;
+use yii\base\InvalidConfigException;
 
 class RoleModel extends Model
 {
@@ -18,12 +20,10 @@ class RoleModel extends Model
 
     private $authManager;
 
-    public function __construct(string $roleName, DbManager $authManager, $config = [])
+    public function __construct(DbManager $authManager, $config = [])
     {
         parent::__construct($config);
-        $this->oldRoleName = $roleName;
         $this->authManager = $authManager;
-        $this->fill();
     }
 
     public function rules()
@@ -50,6 +50,15 @@ class RoleModel extends Model
             'rule_name' => Module::c('Rule Name'),
             'childroles' => Module::c('Child Roles'),
         ];
+    }
+
+    /**
+     * @param mixed $oldRoleName
+     */
+    public function setOldRoleName($oldRoleName): void
+    {
+        $this->oldRoleName = $oldRoleName;
+        $this->fill();
     }
 
     protected function fill()
@@ -98,13 +107,34 @@ class RoleModel extends Model
         return $roles;
     }
 
-    public function update()
+    /**
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\di\NotInstantiableException
+     */
+    public function save():bool
     {
-        $authManager = $this->authManager;
+        $role = $this->createAndAddRole($this->name);
+        if ($role instanceof Role) {
+            $this->addChildRoles($role, is_array($this->childroles) ? $this->childroles : null);
+            return true;
+        }
+        $this->addError('name', Module::e('Role "{id}" is already exist.', ['id' => $this->name]));
+        return false;
+    }
 
-        $this->updateRole($authManager);
+    public function update():bool
+    {
+        $connection = \Yii::$app->db;
+        try{
+            $authManager = $this->authManager;
 
-        $this->updateChildRoles();
+            $this->updateRole($authManager);
+
+            $this->updateChildRoles();
+        } catch (InvalidConfigException $e) {
+            return false;
+        }
         return true;
     }
 
@@ -170,10 +200,46 @@ class RoleModel extends Model
 
     }
 
-    private function dump($data)
+    /**
+     * @param Role $role
+     * @param array $childroles
+     * @throws Exception
+     */
+    private function addChildRoles(Role $role, ?array $childroles):void
     {
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';die;
+        $authManager = $this->authManager;
+
+        if (is_array($childroles) && count($childroles) > 0) {
+
+            // Add child roles if exist
+            foreach ($childroles as $key => $childrole) {
+
+                // Check role is exist or not
+                $rbacRole = $authManager->getRole($childrole);
+
+                if (!$rbacRole) {
+                    $rbacRole = $authManager->createRole($childrole);
+                }
+                $authManager->addChild($role, $rbacRole);
+
+            }
+        }
+    }
+
+    private function createAndAddRole(string $roleName, string $description = null):?Role
+    {
+        $authManager = $this->authManager;
+        // Check role is not exist
+        if (!$authManager->getRole($roleName)) {
+            // Create new role
+            $role = $authManager->createRole($roleName);
+            $role->description = $description;
+
+            // Add in Db table auth_item with type 1
+            $authManager->add($role);
+            return $role;
+        }
+
+        return null;
     }
 }

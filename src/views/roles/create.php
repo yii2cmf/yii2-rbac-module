@@ -10,7 +10,7 @@ use yii\helpers\Html;
 /* @var $childRoles array */
 
 $this->title = M::c('Creating Role');
-$this->params['breadcrumbs'][] = ['label' => M::c('Roles')];
+$this->params['breadcrumbs'][] = ['label' => M::c('Roles'), 'url' => ['']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="rbac-create">
@@ -19,7 +19,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'childRoles' => $childRoles,
+        'allRoles' => $allRoles,
+        'roles' => $roles,
+        'childRoles1' => 0,
+        'childParentRoleNames' => 0,
+        'childParentRoleNames' => $childParentRoleNames
     ]) ?>
 
 </div>

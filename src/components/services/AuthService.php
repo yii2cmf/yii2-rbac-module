@@ -341,6 +341,11 @@ class AuthService extends Component
         return $roles;
     }
 
+    /**
+     * FIXME
+     * @param string $roleName
+     * @return array
+     */
     public function getRolesWithChildRoles5(string $roleName)
     {
         $authManager = $this->dbManager;
@@ -350,7 +355,16 @@ class AuthService extends Component
         $roles = [];
         foreach ($allRoles as $role){
             if ($role->name != $roleName && $role->name != 'root') {
-                $roles[$role->name] = $this->getChildRolesDescription($role->name);
+                $childRoles = $authManager->getChildRoles($role->name);
+                $childRoleExist = false;
+                foreach ($childRoles as $childRole) {
+                    if ($childRole->name == $roleName) {
+                        $childRoleExist = true;
+                    }
+                }
+                if (!$childRoleExist && !$authManager->hasChild($role, $authManager->getRole($roleName))) {
+                    $roles[$role->name] = $this->getChildRolesDescription($role->name);
+                }
             }
         }
         return $roles;

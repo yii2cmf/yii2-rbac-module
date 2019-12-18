@@ -18,8 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3><?= Html::encode($this->title) ?></h3>
 
     <?= $this->render('_form', [
+        'oldRoleName' => $oldRoleName,
         'model' => $model,
-        'childRoles' => $childRoles,
+        'allRoles' => $allRoles,
+        'roles' => $roles,
+        'childRoles1' => $childRoles1,
+        'childroles' => $childroles,
+        'childParentRoleNames' => $childParentRoleNames
     ]) ?>
 
 </div>

@@ -1,8 +1,10 @@
 <?php
 namespace yii2cmf\modules\rbac\controllers;
 
+use app\modules\rbac\models\AuthItemChild;
 use Yii;
 
+use yii\rbac\DbManager;
 use yii2cmf\modules\rbac\models\{
     ActionsForm,
     RoleModel,
@@ -68,7 +70,7 @@ class RolesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new AuthItemRoleModel();
+        $model = new RoleModel($this->module->authManager);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->addFlash('success', Module::c('Role {name} is created.', ['name' => $model->name]));
@@ -76,11 +78,22 @@ class RolesController extends Controller
             return $this->redirect(['index']);
         }
 
+        $allRoles = [];
+        $authManager = $this->module->authManager;
+        foreach ($authManager->getRoles() as $roleObj) {
+            $allRoles[$roleObj->name] = array_keys($authManager->getChildRoles($roleObj->name));
+        }
+
+
         return $this->render('create', [
             'model' => $model,
-            'childRoles' => $this->authService->getRolesWithChildRoles()
+            'allRoles' => json_encode($allRoles),
+            'oldRoleName' => json_encode($model->oldRoleName),
+            'roles' => $this->authService->getRolesWithChildRoles(),
+            'childParentRoleNames' => 0
         ]);
     }
+
 
     /**
      * @param string $id
@@ -89,19 +102,51 @@ class RolesController extends Controller
     public function actionUpdate(string $id)
     {
 
-        $model = new RoleModel($id, $this->module->authManager);
+        $model = new RoleModel($this->module->authManager);
+        $model->setOldRoleName($id);
         $roles = $this->authService->getRolesWithChildRoles5($id);
         $model->childroles = $this->authService->getSelectedRoles($id, $roles);
 
         if ($model->load(Yii::$app->request->post()) && $model->update()) {
             Yii::$app->session->addFlash('success', Module::c('Role {name} is updated.', ['name' => $model->name]));
-            return $this->redirect(['update', 'id' => $model->name]);
+            return $this->redirect(['index']);
         }
 
+        /**
+         * @var $authManager DbManager
+         */
+        $authManager = $this->module->authManager;
+
+        $rolesCount = ($count = count($authManager->getRoles())) > 0 ? $count : 0;
+        $childs = [];
+        $childParentRoleNames = null;
+        if ($rolesCount) {
+            foreach ($authManager->getRoles() as $childRole) {
+                if ($childRole->name != $id) {
+                   if ($authManager->hasChild($authManager->getRole($id), $childRole)) {
+                       $childParentRoleNames[] = $childRole->name;
+                   }
+                }
+            }
+        }
+
+        $allRoles = [];
+        foreach ($authManager->getRoles() as $roleObj) {
+            if ($id != $roleObj->name) {
+                $allRoles[$roleObj->name] = array_keys($authManager->getChildRoles($roleObj->name));
+            }
+        }
+
+        $childRoles1 = $authManager->getChildRoles($id);
 
         return $this->render('update', [
             'model' => $model,
-            'childRoles' => $roles
+            'roles' => $roles,
+            'allRoles' => json_encode($allRoles),
+            'oldRoleName' => json_encode($model->oldRoleName),
+            'childRoles1' => json_encode(array_keys($childRoles1)),
+            'childParentRoleNames' => json_encode($childParentRoleNames),
+            'childroles' => json_encode($model->childroles)
         ]);
     }
 
@@ -158,4 +203,13 @@ class RolesController extends Controller
         ]);
     }
 
+    private function dump($data, $die = true)
+    {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        if ($die) {
+            die();
+        }
+    }
 }

@@ -49,11 +49,11 @@ http://your-project/rbac/roles
 ![index](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/RolesIndex.png)
 
 
-##### Update Rule
+##### Add Permission Rule
 
 ![update-rule](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdateRule.png)
 
 
-##### Add Rule
+##### Add User Rule
 
 ![add-rule](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/AddRule.png)

@@ -32,9 +32,12 @@ In config/web.php
 php yii migrate/down --migrationPath=@vendor/yii2cmf/yii2-rbac-module/migrations
 ```
 
-##### Update Permissions
+##### Module Default Page
 
-http://your-project/rbac/roles or http://your-project/module/rbac/roles 
+http://your-project/rbac or http://your-project/module/rbac 
+
+
+##### Update Permissions
 
 ![update_permissions](https://raw.githubusercontent.com/shandyrov/images/master/modules/rbac/adminlte2/UpdatePerm2.png)
 

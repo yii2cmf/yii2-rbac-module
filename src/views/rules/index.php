@@ -10,12 +10,12 @@ use yii2cmf\modules\rbac\Module as M;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $type string */
 
-$this->title = M::c('Rules');
+$this->title = M::c('Permissions Rules');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-item-index">
 
-    <h2><?= Html::encode($this->title) ?></h2>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a(M::c('Add'), ['create'], ['class' => 'btn btn-primary btn-flat']) ?>

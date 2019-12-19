@@ -54,12 +54,12 @@ class Module extends \yii\base\Module
                         'active' => $active && $controller == 'roles',
                     ],
                     [
-                        'label' => Module::c('Rules'),
+                        'label' => Module::c('Permissions Rules'),
                         'url' => [$adminModule.'/'.$this->id.'/rules'],
                         'active' => $active && $controller == 'rules'
                     ],
                     [
-                        'label' => Module::c('Assignments'),
+                        'label' => Module::c('Role Assignment'),
                         'url' => [$adminModule.'/'.$this->id.'/assignments'],
                         'active' => $active && $controller == 'assignments'
                     ],

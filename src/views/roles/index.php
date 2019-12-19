@@ -22,8 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
@@ -65,16 +63,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{view}  {rule} {permissions} {add-subroles} {update} {delete}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open']), $url);
+                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-eye-open', 'style' => 'padding-right:4px']), $url);
                     },
                     'update' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-pencil']), $url);
+                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-pencil', 'style' => 'padding-right:4px']), $url);
                     },
                     'permissions' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-lock', 'title' => 'Update Permission']), ['permissions', 'role' => $model->name]);
+                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-lock', 'title' => 'Update Permission', 'style' => 'padding-right:4px']), ['permissions', 'role' => $model->name]);
                     },
                     'rule' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-list-alt', 'title' => 'Add/Edit Rule']), ['rule', 'role' => $model->name]);
+                        return Html::a(Html::tag('span', '', ['class' => 'glyphicon glyphicon-list-alt', 'title' => 'Add/Edit Rule', 'style' => 'padding-right:4px']), ['rule', 'role' => $model->name]);
                     }
                 ]
             ]

@@ -21,12 +21,12 @@ foreach (array_keys($authManager->getRoles()) as $roleName) {
    $roleNames[$roleName] = $roleName;
 }
 
-$this->title = Yii::t('modules/rbac/common', 'Assignments');
+$this->title = Yii::t('modules/rbac/common', 'Role Assignment');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="auth-assignment-index">
 
-    <h2><?= Html::encode($this->title) ?></h2>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a(M::c('Add'), ['create'], ['class' => 'btn btn-primary btn-flat']) ?>

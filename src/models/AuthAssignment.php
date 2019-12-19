@@ -60,7 +60,7 @@ class AuthAssignment extends \yii\db\ActiveRecord
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at']
                 ],
-                'value' => date('Y-m-d H:i:s'),
+                'value' => date('U'),
             ]
         ];
     }

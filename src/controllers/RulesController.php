@@ -60,7 +60,7 @@ class RulesController extends Controller
     {
         $model = new AuthRuleModel();
 
-        list($modules, $controllers, $actions) = $this->getModulesControllersActions();
+        list($modules, $controllers, $actions) = $this->getModulesControllersActions(Yii::$app->id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->addFlash('success', 'Rule added.');
@@ -128,22 +128,29 @@ class RulesController extends Controller
     private function getModulesControllersActions(string $id): array
     {
         $modules = $this->moduleService->getModules();
+
         if (!$modules) {
             return [];
         }
-
-        $controllerAction = substr($id, strpos($id, '_')+1);
-        $moduleName = substr($id, 0, strpos($id, '_'));
-        $controllerName = substr($id, strlen($moduleName)+1, strpos($controllerAction, '_'));
+        // update action
+        if (strpos($id, '_') !== false) {
+            // Divide the permission ($id = module_controller_action) into three parts.
+            $controllerAction = substr($id, strpos($id, '_')+1);
+            $moduleName = substr($id, 0, strpos($id, '_'));
+            $controllerName = substr($id, strlen($moduleName)+1, strpos($controllerAction, '_'));
+        // create action
+        } else {
+            $moduleName = Yii::$app->id;
+            $controllers = $this->moduleService->getControllersShortName($moduleName);
+            $controllerName = $controllers[array_key_first($controllers)];
+        }
 
         $controllers = $this->moduleService->getControllersShortName($moduleName);
-
         if (!$controllers) {
             throw new \Exception("Controllers Not Found");
         }
 
         $actions = $this->moduleService->getControllerActions($moduleName, ucfirst($controllerName).'Controller');
-
         return [$modules, $controllers, $actions];
     }
 
@@ -189,7 +196,7 @@ class RulesController extends Controller
     {
 
         if (($moduleName = Yii::$app->request->post('module')) && ($controllerName = Yii::$app->request->post('controller'))) {
-            $module = Yii::$app->getModule($moduleName);
+            $module = ($module = Yii::$app->getModule($moduleName)) != null ? $module : Yii::$app;
 
             $reflectionClass = new \ReflectionClass($module->controllerNamespace.'\\'.ucfirst($controllerName).'Controller');
 

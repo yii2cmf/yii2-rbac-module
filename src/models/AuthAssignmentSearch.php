@@ -4,9 +4,10 @@ namespace yii2cmf\modules\rbac\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii2cmf\modules\rbac\models\AuthAssignment;
 
 /**
- * AuthAssignmentSearch represents the model behind the search form of `app\modules\roles\models\AuthAssignment`.
+ * AuthAssignmentSearch represents the model behind the search form of `yii2cmf\modules\rbac\models\AuthAssignment`.
  */
 class AuthAssignmentSearch extends AuthAssignment
 {

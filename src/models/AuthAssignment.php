@@ -60,7 +60,6 @@ class AuthAssignment extends \yii\db\ActiveRecord
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => ['created_at']
                 ],
-                //'value' => new Expression('NOW()'),
                 'value' => date('Y-m-d H:i:s'),
             ]
         ];
@@ -72,5 +71,10 @@ class AuthAssignment extends \yii\db\ActiveRecord
     public function getItemName()
     {
         return $this->hasOne(AuthItem::class, ['name' => 'item_name']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }

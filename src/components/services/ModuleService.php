@@ -68,7 +68,9 @@ class ModuleService extends Component
      */
     public function getControllersShortName(string $moduleId)
     {
-        if (!($module = Yii::$app->getModule($moduleId))) {
+        if (Yii::$app->id == $moduleId) {
+            $module = Yii::$app;
+        } elseif (!($module = Yii::$app->getModule($moduleId))) {
             throw new Exception("Module: $moduleId Not Exist");
         }
 
@@ -91,15 +93,15 @@ class ModuleService extends Component
      */
     public function getControllerActions(string $moduleId, string $controllerId)
     {
+        if (!($module = Yii::$app->getModule($moduleId))) {
+           $module = Yii::$app;
+        }
         $pathInfo = pathinfo($controllerId);
-        $reflectionClass = new \ReflectionClass(Yii::$app->getModule($moduleId)->controllerNamespace.'\\'.$pathInfo['filename']);
+        $reflectionClass = new \ReflectionClass($module->controllerNamespace.'\\'.$pathInfo['filename']);
 
         $methods = array_filter($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC), function ($method){
-            return strstr($method->name,'action') !== false && $method->name !== 'actions' && $method->name !== 'actions' && substr($method->class, 0, strpos($method->class, '\\')) != 'yii';//strstr($method->name,'action') !== false && $method->name !== 'actions' && strstr($method->class, 'yii') == false;
+            return strstr($method->name,'action') !== false && $method->name !== 'actions' && $method->name !== 'actions' && substr($method->class, 0, strpos($method->class, '\\')) != 'yii';
         });
-        //echo '<pre>';
-        //print_r($methods);
-        //echo '</pre>';
 
         $actions = [];
 

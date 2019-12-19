@@ -58,6 +58,11 @@ class Module extends \yii\base\Module
                         'url' => [$adminModule.'/'.$this->id.'/rules'],
                         'active' => $active && $controller == 'rules'
                     ],
+                    [
+                        'label' => Module::c('Assignments'),
+                        'url' => [$adminModule.'/'.$this->id.'/assignments'],
+                        'active' => $active && $controller == 'assignments'
+                    ],
                 ]
             ];
     }

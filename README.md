@@ -3,7 +3,7 @@ RBAC module that allows you to edit roles, permissions and rules using the web i
 ## Installation
 The preferred way to install this extension is through composer.
 ```
-$ composer require --prefer-dist yii2cmf/yii2-rbac-module
+$ composer require yii2cmf/yii2-rbac-module
 ```
 or add
 ```
